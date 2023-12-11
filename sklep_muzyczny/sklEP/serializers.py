@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Producent, Gatunek, Wytwornia, Album, Festiwal, RODZAJ
 from datetime import date
+from django.contrib.auth.models import User
 
 class ProducentSerializer(serializers.ModelSerializer):
 
@@ -10,7 +11,7 @@ class ProducentSerializer(serializers.ModelSerializer):
     pseudonim = serializers.CharField(required=True)
     gatunek = serializers.PrimaryKeyRelatedField(queryset=Gatunek.objects.all())
     pochodzenie = serializers.CharField(required=True)
-    wytwornia = serializers.PrimaryKeyRelatedField(queryset=Wytwornia.objects.all())
+    #wytwornia = serializers.PrimaryKeyRelatedField(queryset=Wytwornia.objects.all())
 
     def create(self, validated_data):
         return Producent.objects.create(**validated_data)
@@ -126,3 +127,13 @@ class FestiwalSerializer(serializers.ModelSerializer):
         ordering = ["nazwa"]
         model = Festiwal
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "password"]
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user

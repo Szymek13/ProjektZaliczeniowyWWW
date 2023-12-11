@@ -277,7 +277,7 @@ def albumy_po_gatunku(request, genre_id):
 
 class UserRegistrationView(generics.GenericAPIView, CreateModelMixin):
     queryset = User.objects.all()
-    serializer_class = ProducentSerializer
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
